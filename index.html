@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook - Premium Movie Ticket Booking</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo" id="brand-logo">
+                <i class="fa-solid fa-film logo-icon"></i>
+                <span class="logo-text">Cine<span class="highlight">Book</span></span>
+            </a>
+
+            <div class="nav-location">
+                <i class="fa-solid fa-location-dot loc-icon"></i>
+                <select id="city-select" aria-label="Select City">
+                    <option value="Kozhikode">Kozhikode</option>
+                    <option value="Kochi">Kochi</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Chennai">Chennai</option>
+                </select>
+            </div>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="#home" class="nav-item active"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="#movies" class="nav-item"><i class="fa-solid fa-clapperboard"></i> Movies</a>
+                <a href="#cinemas" class="nav-item"><i class="fa-solid fa-building-user"></i> Cinemas</a>
+                <a href="#my-bookings" class="nav-item" id="nav-bookings-link"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="global-search" placeholder="Search movies, genres...">
+                </div>
+                <button class="btn btn-login" id="login-btn">
+                    <i class="fa-solid fa-user-gear"></i> <span id="user-display">Sign In</span>
+                </button>
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Navigation -->
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="drawer-header">
+            <span class="logo-text">Cine<span class="highlight">Book</span></span>
+            <button class="close-drawer" id="close-drawer"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="drawer-links">
+            <a href="#home" class="drawer-item active"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#movies" class="drawer-item"><i class="fa-solid fa-clapperboard"></i> Movies</a>
+            <a href="#cinemas" class="drawer-item"><i class="fa-solid fa-building-user"></i> Cinemas</a>
+            <a href="#my-bookings" class="drawer-item"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="main-content">
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-slider" id="hero-slider">
+                <!-- Dynamically populated hero slide -->
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn prev" id="slider-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="slider-dots" id="slider-dots"></div>
+                <button class="slider-btn next" id="slider-next"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- Special Banner -->
+        <section class="offers-banner section-padding">
+            <div class="container">
+                <div class="offer-card">
+                    <div class="offer-content">
+                        <span class="badge">LIMITED TIME DEMO OFFER</span>
+                        <h2>Get 20% Instant Cashback with CinePass</h2>
+                        <p>Use demo coupon <strong class="code">CINE20</strong> during mock checkout!</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="showToast('Demo Coupon CINE20 copied!', 'success')">Claim Code</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Movies Explorer Section -->
+        <section id="movies" class="movies-section section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Explore Movies</h2>
+                        <p class="section-subtitle">Discover trending titles showing in cinemas near you</p>
+                    </div>
+                    <!-- Tab Switcher -->
+                    <div class="tab-pills">
+                        <button class="tab-btn active" data-tab="now">Now Showing</button>
+                        <button class="tab-btn" data-tab="upcoming">Upcoming</button>
+                    </div>
+                </div>
+
+                <!-- Filters Bar -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label><i class="fa-solid fa-filter"></i> Genre:</label>
+                        <select id="genre-filter">
+                            <option value="all">All Genres</option>
+                            <option value="Action">Action</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Adventure">Adventure</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label><i class="fa-solid fa-language"></i> Language:</label>
+                        <select id="language-filter">
+                            <option value="all">All Languages</option>
+                            <option value="Malayalam">Malayalam</option>
+                            <option value="English">English</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Tamil">Tamil</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label><i class="fa-solid fa-star"></i> Min Rating:</label>
+                        <select id="rating-filter">
+                            <option value="0">All Ratings</option>
+                            <option value="8.5">8.5+ ⭐</option>
+                            <option value="8.0">8.0+ ⭐</option>
+                            <option value="7.5">7.5+ ⭐</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label><i class="fa-solid fa-arrow-down-wide-short"></i> Sort By:</label>
+                        <select id="sort-filter">
+                            <option value="rating">Highest Rated</option>
+                            <option value="title">Movie Title</option>
+                            <option value="duration">Duration</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Movies Grid -->
+                <div class="movies-grid" id="movies-grid">
+                    <!-- Movie cards generated dynamically -->
+                </div>
+
+                <div class="empty-state hidden" id="movies-empty">
+                    <i class="fa-solid fa-film-slash empty-icon"></i>
+                    <h3>No Movies Match Your Criteria</h3>
+                    <p>Try resetting filters or changing the search query.</p>
+                    <button class="btn btn-secondary" id="reset-filters-btn">Reset All Filters</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cinemas Section -->
+        <section id="cinemas" class="cinemas-section section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Partner Multiplexes</h2>
+                        <p class="section-subtitle">Showing cinemas available in <span id="current-city-display" class="highlight">Kozhikode</span></p>
+                    </div>
+                </div>
+
+                <div class="cinemas-grid" id="cinemas-grid">
+                    <!-- Cinema cards loaded dynamically based on selected city -->
+                </div>
+            </div>
+        </section>
+
+        <!-- My Bookings Section -->
+        <section id="my-bookings" class="bookings-section section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">My Ticket History</h2>
+                        <p class="section-subtitle">Manage your local demo movie reservations</p>
+                    </div>
+                </div>
+
+                <div id="bookings-container" class="bookings-grid">
+                    <!-- Dynamic Bookings list -->
+                </div>
+
+                <div class="empty-state hidden" id="bookings-empty">
+                    <i class="fa-solid fa-ticket-simple empty-icon"></i>
+                    <h3>No Bookings Found</h3>
+                    <p>You haven't reserved any movie tickets yet.</p>
+                    <a href="#movies" class="btn btn-primary">Book Tickets Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter-section section-padding">
+            <div class="container">
+                <div class="newsletter-card">
+                    <i class="fa-solid fa-envelope-open-text newsletter-icon"></i>
+                    <h2>Subscribe to CineBook Cinema Weekly</h2>
+                    <p>Get early bird show notifications and exclusive weekend movie deals directly to your inbox.</p>
+                    <form class="newsletter-form" id="newsletter-form">
+                        <input type="email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a href="#home" class="logo">
+                    <i class="fa-solid fa-film logo-icon"></i>
+                    <span class="logo-text">Cine<span class="highlight">Book</span></span>
+                </a>
+                <p class="footer-desc">Experience cinema like never before. Effortless online booking, premium seating selections, and real-time showtimes.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#movies">Now Showing</a></li>
+                    <li><a href="#movies">Upcoming Movies</a></li>
+                    <li><a href="#cinemas">Partner Cinemas</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Cities</h4>
+                <ul class="footer-links">
+                    <li><a href="#" class="city-quick-link" data-city="Kozhikode">Kozhikode</a></li>
+                    <li><a href="#" class="city-quick-link" data-city="Kochi">Kochi</a></li>
+                    <li><a href="#" class="city-quick-link" data-city="Bengaluru">Bengaluru</a></li>
+                    <li><a href="#" class="city-quick-link" data-city="Chennai">Chennai</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-heading">Demo Info</h4>
+                <p class="demo-note"><i class="fa-solid fa-circle-info"></i> CineBook is a client-side vanilla web app project. All seat reservations are saved locally in your browser context.</p>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 CineBook Inc. Designed for premium cinematic experiences.</p>
+        </div>
+    </footer>
+
+    <!-- ================= MODALS & OVERLAYS ================= -->
+
+    <!-- Movie Details Modal -->
+    <div class="modal-backdrop hidden" id="movie-details-modal">
+        <div class="modal-container modal-lg">
+            <button class="modal-close" id="close-details-modal"><i class="fa-solid fa-xmark"></i></button>
+            <div id="details-modal-content">
+                <!-- Dynamically filled -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Flow Wizard Modal -->
+    <div class="modal-backdrop hidden" id="booking-modal">
+        <div class="modal-container modal-xl booking-wizard">
+            <button class="modal-close" id="close-booking-modal"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- Wizard Stepper Header -->
+            <div class="stepper-header">
+                <div class="step-item active" data-step="1">
+                    <div class="step-num">1</div>
+                    <span class="step-title">Movie & Cinema</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" data-step="2">
+                    <div class="step-num">2</div>
+                    <span class="step-title">Date & Time</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" data-step="3">
+                    <div class="step-num">3</div>
+                    <span class="step-title">Seats</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item" data-step="4">
+                    <div class="step-num">4</div>
+                    <span class="step-title">Payment</span>
+                </div>
+            </div>
+
+            <!-- Wizard Content Viewports -->
+            <div class="wizard-body">
+
+                <!-- STEP 1: Cinema & City Confirmation -->
+                <div class="wizard-step active" id="step-1">
+                    <h3 class="step-heading">Confirm City & Select Theater</h3>
+                    <div class="form-group mb-4">
+                        <label>City Selection:</label>
+                        <select id="booking-city-select" class="form-control">
+                            <option value="Kozhikode">Kozhikode</option>
+                            <option value="Kochi">Kochi</option>
+                            <option value="Bengaluru">Bengaluru</option>
+                            <option value="Chennai">Chennai</option>
+                        </select>
+                    </div>
+                    <p class="subtitle mb-3">Available Partner Multiplexes:</p>
+                    <div class="cinema-selection-list" id="wizard-cinema-list">
+                        <!-- Populated dynamic list of cinemas -->
+                    </div>
+                </div>
+
+                <!-- STEP 2: Date & Showtimes -->
+                <div class="wizard-step" id="step-2">
+                    <h3 class="step-heading">Select Show Date & Time</h3>
+                    <p class="subtitle mb-3">Dates for <strong id="step2-cinema-name" class="highlight">Cinema</strong></p>
+                    
+                    <!-- Date Selector Carousel -->
+                    <div class="date-selector" id="date-selector">
+                        <!-- Dynamic date choices -->
+                    </div>
+
+                    <h4 class="mt-4 mb-2">Available Showtimes:</h4>
+                    <div class="showtime-grid" id="showtime-grid">
+                        <!-- Dynamic showtime buttons -->
+                    </div>
+                </div>
+
+                <!-- STEP 3: Interactive Seat Selection -->
+                <div class="wizard-step" id="step-3">
+                    <div class="seating-header">
+                        <div>
+                            <h3>Select Your Seats</h3>
+                            <p class="subtitle">Max 6 seats allowed per booking</p>
+                        </div>
+                        <div class="seat-legend">
+                            <div class="legend-item"><span class="seat-sample available"></span> Available</div>
+                            <div class="legend-item"><span class="seat-sample selected"></span> Selected</div>
+                            <div class="legend-item"><span class="seat-sample premium"></span> Premium (₹250)</div>
+                            <div class="legend-item"><span class="seat-sample booked"></span> Booked</div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Screen -->
+                    <div class="screen-container">
+                        <div class="cinema-screen"></div>
+                        <span class="screen-text">ALL EYES THIS WAY (SCREEN)</span>
+                    </div>
+
+                    <!-- Seating Map Grid -->
+                    <div class="seating-map" id="seating-map">
+                        <!-- Dynamic seat layout generation -->
+                    </div>
+
+                    <div class="selected-seats-info mt-3">
+                        <p>Selected Seats: <strong id="selected-seats-display" class="highlight">None</strong></p>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Review, Details & Payment -->
+                <div class="wizard-step" id="step-4">
+                    <div class="booking-summary-grid">
+                        
+                        <!-- Order Summary -->
+                        <div class="summary-card">
+                            <h3 class="summary-title"><i class="fa-solid fa-receipt"></i> Order Summary</h3>
+                            <div class="summary-item">
+                                <span>Movie:</span>
+                                <strong id="sum-movie-title">-</strong>
+                            </div>
+                            <div class="summary-item">
+                                <span>Cinema:</span>
+                                <span id="sum-cinema-name">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Date & Time:</span>
+                                <span id="sum-datetime">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Seats:</span>
+                                <span id="sum-seats" class="highlight">-</span>
+                            </div>
+                            <hr class="divider">
+                            <div class="summary-item">
+                                <span>Tickets Subtotal:</span>
+                                <span id="sum-tickets-price">₹0</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Convenience Fee & Tax (18%):</span>
+                                <span id="sum-convenience">₹0</span>
+                            </div>
+                            <div class="summary-item total">
+                                <span>Total Amount:</span>
+                                <strong id="sum-total-price">₹0</strong>
+                            </div>
+                        </div>
+
+                        <!-- Customer Details & Payment Form -->
+                        <div class="checkout-form-wrapper">
+                            <h3>Contact & Payment Details</h3>
+                            <form id="checkout-form" class="mt-3">
+                                <div class="form-group">
+                                    <label for="cust-name">Full Name *</label>
+                                    <input type="text" id="cust-name" class="form-control" placeholder="e.g. Rahul Sharma" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="cust-email">Email Address *</label>
+                                        <input type="email" id="cust-email" class="form-control" placeholder="rahul@example.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cust-phone">Mobile Number *</label>
+                                        <input type="tel" id="cust-phone" class="form-control" placeholder="9876543210" pattern="[0-9]{10}" required>
+                                    </div>
+                                </div>
+
+                                <h4 class="mt-3 mb-2">Select Demo Payment Method:</h4>
+                                <div class="payment-methods">
+                                    <label class="pay-option">
+                                        <input type="radio" name="payment" value="UPI" checked>
+                                        <span class="pay-box"><i class="fa-solid fa-qrcode"></i> UPI / GooglePay</span>
+                                    </label>
+                                    <label class="pay-option">
+                                        <input type="radio" name="payment" value="Card">
+                                        <span class="pay-box"><i class="fa-solid fa-credit-card"></i> Credit / Debit Card</span>
+                                    </label>
+                                    <label class="pay-option">
+                                        <input type="radio" name="payment" value="NetBanking">
+                                        <span class="pay-box"><i class="fa-solid fa-building-columns"></i> Net Banking</span>
+                                    </label>
+                                </div>
+
+                                <div class="demo-alert mt-3">
+                                    <i class="fa-solid fa-shield-halved"></i> DEMO PAYMENT MODE: No real currency will be charged.
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Wizard Navigation Actions -->
+            <div class="wizard-footer">
+                <button class="btn btn-secondary" id="wizard-prev-btn" disabled><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <button class="btn btn-primary" id="wizard-next-btn">Continue <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation / Ticket Modal -->
+    <div class="modal-backdrop hidden" id="ticket-modal">
+        <div class="modal-container modal-md">
+            <button class="modal-close" id="close-ticket-modal"><i class="fa-solid fa-xmark"></i></button>
+            <div id="ticket-modal-content" class="ticket-view-wrapper">
+                <!-- Dynamically generated visual ticket -->
+            </div>
+            <div class="modal-actions mt-4 text-center">
+                <button class="btn btn-secondary" id="print-ticket-btn"><i class="fa-solid fa-print"></i> Print Ticket</button>
+                <button class="btn btn-primary" id="finish-booking-btn">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Demo) -->
+    <div class="modal-backdrop hidden" id="auth-modal">
+        <div class="modal-container modal-sm">
+            <button class="modal-close" id="close-auth-modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="auth-box">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-login">Sign In</button>
+                    <button class="auth-tab" id="tab-register">Register</button>
+                </div>
+                
+                <form id="auth-form" class="mt-4">
+                    <div class="form-group hidden" id="group-name">
+                        <label>Full Name</label>
+                        <input type="text" id="auth-name" class="form-control" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="auth-email" class="form-control" placeholder="user@cinebook.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="auth-pass" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block mt-3" id="auth-submit-btn">Sign In</button>
+                    <p class="demo-note text-center mt-3"><i class="fa-solid fa-info-circle"></i> Demo Mode: Any email and password will work!</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
